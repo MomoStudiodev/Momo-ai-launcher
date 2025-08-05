@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MOMO AI – Launch 15 Sept 2025</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="MOMO AI – the next-gen AI assistant launching 15 September 2025. Countdown, early access, live chat, mini-game & more.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+  :root{
+    --accent:#00e5ff;
+    --accent-dark:#00acc1;
+    --bg:#0d0d0d;
+    --bg-light:#e6f7fa;
+    --text:#fff;
+    --text-dark:#111;
+    --card:rgba(255,255,255,.08);
+    --card-light:rgba(0,0,0,.05);
+    --shadow:0 8px 32px rgba(0,0,0,.5);
+  }
+  body.light{
+    --bg:var(--bg-light);
+    --text:var(--text-dark);
+    --card:var(--card-light);
+    --shadow:0 8px 32px rgba(0,0,0,.15);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    transition:background .3s,color .3s;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:1.5rem;
+  }
+  header{display:flex;justify-content:space-between;width:100%;max-width:900px;margin-bottom:1.5rem}
+  header button{
+    background:none;
+    border:1px solid var(--card);
+    border-radius:20px;
+    padding:.4rem .8rem;
+    color:var(--text);
+    cursor:pointer;
+    font-size:.85rem;
+  }
+  h1{font-size:clamp(2rem,5vw,3rem)}
+  h2{color:var(--accent);font-weight:400;margin-bottom:1.5rem}
+  #countdown{
+    display:flex;
+    gap:1rem;
+    font-size:clamp(1.8rem,5vw,2.8rem);
+    font-weight:700;
+    flex-wrap:wrap;
+    margin-bottom:1.5rem
+  }
+  .unit{
+    background:var(--card);
+    border-radius:12px;
+    padding:1rem 1.4rem;
+    min-width:80px;
+    backdrop-filter:blur(12px);
+    box-shadow:var(--shadow);
+  }
+  .unit span:last-child{font-size:.7rem;opacity:.7}
+  .btn{
+    background:var(--accent);
+    color:#000;
+    padding:.7rem 1.5rem;
+    border-radius:25px;
+    text-decoration:none;
+    font-weight:600;
+    margin:.4rem .2rem;
+    display:inline-block;
+    transition:transform .2s;
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn.outline{background:transparent;color:var(--accent);border:2px solid}
+  section{max-width:900px;width:100%;margin-top:2rem}
+  .card{
+    background:var(--card);
+    border-radius:16px;
+    padding:1.2rem 1.5rem 1.5rem;
+    margin-bottom:1.5rem;
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(12px);
+  }
+  .card h3{margin-bottom:.8rem}
+  .form-group{display:flex;flex-direction:column;gap:.5rem}
+  input[type=email],textarea,select{
+    padding:.7rem .9rem;
+    border-radius:20px;
+    border:none;
+    font-size:1rem;
+    width:100%;
+    background:var(--card);
+    color:var(--text);
+  }
+  .progress-bar{
+    width:100%;
+    height:8px;
+    background:var(--card);
+    border-radius:4px;
+    overflow:hidden;
+    margin:.5rem 0 1rem;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--accent);
+    width:0%;
+    transition:width .3s;
+  }
+  .social a{margin:0 .4rem;font-size:1.6rem;text-decoration:none}
+  .faq-item{cursor:pointer;border-bottom:1px solid var(--card);padding:.6rem 0}
+  .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s}
+  .faq-item.open .faq-answer{max-height:200px;margin-top:.4rem}
+  #backTop{
+    position:fixed;bottom:20px;right:20px;
+    background:var(--accent);color:#000;border:none;
+    border-radius:50%;width:45px;height:45px;font-size:1.4rem;
+    display:none;cursor:pointer;z-index:9;
+  }
+  canvas#particles{position:fixed;top:0;left:0;z-index:-1;pointer-events:none}
+  @media(max-width:600px){
+    #countdown{gap:.6rem}
+    .unit{min-width:60px;padding:.7rem 1rem}
+  }
+  </style>
+</head>
+
+<body>
+<header>
+  <button id="themeToggle" title="Toggle dark/light">🌗</button>
+  <select id="langSelect" title="Language">
+    <option value="en">EN</option>
+    <option value="es">ES</option>
+    <option value="fr">FR</option>
+    <option value="zu">ZU</option>
+  </select>
+</header>
+
+<main>
+  <h1 data-i18n="title">MOMO AI</h1>
+  <h2 data-i18n="subtitle">Official Launch: 15 September 2025</h2>
+
+  <!-- Countdown -->
+  <div id="countdown">
+    <div class="unit"><span id="days">--</span><span data-i18n="days">DAYS</span></div>
+    <div class="unit"><span id="hours">--</span><span data-i18n="hours">HOURS</span></div>
+    <div class="unit"><span id="minutes">--</span><span data-i18n="minutes">MINS</span></div>
+    <div class="unit"><span id="seconds">--</span><span data-i18n="seconds">SECS</span></div>
+  </div>
+
+  <a class="btn" id="downloadBtn" style="display:none;" href="https://play.google.com/store/search?q=MOMO+AI" data-i18n="download">Download Now</a>
+
+  <!-- Progress to launch -->
+  <section class="card">
+    <h3 data-i18n="progress">Launch Progress</h3>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </section>
+
+  <!-- Early-access signup -->
+  <section class="card" id="newsletter">
+    <h3 data-i18n="earlyAccess">Early-Access List</h3>
+    <form id="earlyForm">
+      <div class="form-group">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button class="btn" type="submit" data-i18n="join">Join</button>
+      </div>
+      <p id="formMsg" style="color:var(--accent);display:none" data-i18n="thanks">Thanks! We’ll be in touch.</p>
+    </form>
+  </section>
+
+  <!-- Calendar & share -->
+  <section class="card">
+    <h3 data-i18n="addToCal">Add to Calendar</h3>
+    <a class="btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=MOMO+AI+Launch&dates=20250915T000000Z/20250915T010000Z" target="_blank">Google</a>
+    <a class="btn" href="https://outlook.live.com/calendar/0/deeplink/compose?subject=MOMO+AI+Launch&startdt=2025-09-15T00:00:00Z&enddt=2025-09-15T01:00:00Z" target="_blank">Outlook</a>
+    <a class="btn" href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0APRODID:-//MOMO//EN%0ABEGIN:VEVENT%0ADTSTART:20250915T000000Z%0ADTEND:20250915T010000Z%0ASUMMARY:MOMO AI Launch%0AEND:VEVENT%0AEND:VCALENDAR" download="momo-launch.ics">iCal</a>
+  </section>
+
+  <!-- Social share -->
+  <section class="card social">
+    <h3 data-i18n="share">Share</h3>
+    <a href="https://twitter.com/intent/tweet?text=MOMO%20AI%20launches%2015%20Sept%202025%21%20Countdown%3A%20https%3A//bit.ly/momo-ai" target="_blank">🐦</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://bit.ly/momo-ai" target="_blank">📘</a>
+    <a href="https://wa.me/?text=MOMO%20AI%20launch%2015%20Sept%202025%20https%3A//bit.ly/momo-ai" target="_blank">📱</a>
+    <a href="mailto:?subject=MOMO AI Launch&body=Join%20the%20countdown%3A%20https%3A//bit.ly/momo-ai" target="_blank">✉️</a>
+  </section>
+
+  <!-- Mini-game -->
+  <section class="card">
+    <h3 data-i18n="miniGame">Mini-Game: Click MOMO</h3>
+    <p data-i18n="clickMomo">Click the button as many times as you can in 5 seconds!</p>
+    <button class="btn" id="startGame" data-i18n="start">Start Game</button>
+    <p id="gameResult" style="display:none;color:var(--accent)"></p>
+  </section>
+
+  <!-- FAQ accordion -->
+  <section class="card">
+    <h3 data-i18n="faq">FAQ</h3>
+    <div class="faq-item">
+      <span data-i18n="faq1q">What is MOMO AI?</span>
+      <div class="faq-answer" data-i18n="faq1a">MOMO AI is your next-gen personal assistant powered by cutting-edge language models.</div>
+    </div>
+    <div class="faq-item">
+      <span data-i18n="faq2q">Is it free?</span>
+      <div class="faq-answer" data-i18n="faq2a">Yes, the core version is free forever; premium tiers unlock extra power.</div>
+    </div>
+  </section>
+
+  <!-- Live visitor counter (uses free API) -->
+  <section class="card">
+    <h3 data-i18n="visitors">Visitors Online</h3>
+    <span id="visitorCount">-</span>
+  </section>
+
+  <!-- Contact -->
+  <section class="card">
+    <h3 data-i18n="contact">Contact Us</h3>
+    <a href="mailto:skhanyisondlovu505@gmail.com" class="btn">Email</a>
+    <a href="https://twitter.com/momoai" class="btn outline" target="_blank">Twitter</a>
+  </section>
+</main>
+
+<button id="backTop" title="Back to top">↑</button>
+<canvas id="particles"></canvas>
+
+<script>
+/* ---------- Countdown & Progress ---------- */
+const launch = new Date("2025-09-15T00:00:00");
+const daysEl = document.getElementById('days'), hoursEl = document.getElementById('hours');
+const minsEl = document.getElementById('minutes'), secsEl = document.getElementById('seconds');
+const progressFill = document.getElementById('progressFill');
+function updateCountdown(){
+  const diff = launch - new Date();
+  const total = launch - new Date("2025-01-01");
+  const percent = Math.min(100, Math.max(0, ((total - diff) / total) * 100));
+  progressFill.style.width = percent + '%';
+  if (diff <= 0){
+    ['days','hours','minutes','seconds'].forEach(id=>document.getElementById(id).textContent='0');
+    document.getElementById('downloadBtn').style.display='inline-block';
+    return;
+  }
+  daysEl.textContent = Math.floor(diff/864e5);
+  hoursEl.textContent = String(Math.floor(diff/36e5)%24).padStart(2,0);
+  minsEl.textContent  = String(Math.floor(diff/6e4)%60).padStart(2,0);
+  secsEl.textContent  = String(Math.floor(diff/1e3)%60).padStart(2,0);
+}
+updateCountdown(); setInterval(updateCountdown,1000);
+
+/* ---------- Language ---------- */
+const i18n = {
+  en:{title:"MOMO AI",subtitle:"Official Launch: 15 September 2025",days:"DAYS",hours:"HOURS",minutes:"MINS",seconds:"SECS",download:"Download Now",progress:"Launch Progress",earlyAccess:"Early-Access List",join:"Join",share:"Share",addToCal:"Add to Calendar",miniGame:"Mini-Game: Click MOMO",start:"Start Game",clickMomo:"Click the button as many times as you can in 5 seconds!",faq:"FAQ",visitors:"Visitors Online",contact:"Contact Us"},
+  es:{title:"MOMO AI",subtitle:"Lanzamiento: 15 septiembre 2025",days:"DÍAS",hours:"HORAS",minutes:"MIN",seconds:"SEGS",download:"Descargar",progress:"Progreso",earlyAccess:"Acceso anticipado",join:"Unirse",share:"Compartir",addToCal:"Añadir al calendario",miniGame:"Mini-juego",start:"Jugar",clickMomo:"¡Haz clic tantas veces como puedas en 5 s!",faq:"Preguntas frecuentes",visitors:"Visitantes en línea",contact:"Contacto"},
+  fr:{title:"MOMO AI",subtitle:"Lancement : 15 septembre 2025",days:"JOURS",hours:"H",minutes:"MIN",seconds:"SEC",download:"Télécharger",progress:"Progrès",earlyAccess:"Accès anticipé",join:"Rejoindre",share:"Partager",addToCal:"Ajouter au calendrier",miniGame:"Mini-jeu",start:"Commencer",clickMomo:"Cliquez le plus de fois en 5 s !",faq:"FAQ",visitors:"Visiteurs en ligne",contact:"Contact"},
+  zu:{title:"MOMO AI",subtitle:"Ukusabalalisa: 15 Septemba 2025",days:"ZINSUKU",hours:"AMAHORA",minutes:"AMAMINITHI",seconds:"AMASEKONDI",download:"Landa",progress:"Ukuhamba",earlyAccess:"Ukufinyelela okungaphambili",join:"Joyina",share:"Yabelana",addToCal:"Engeza ekalendeni",miniGame:"Umdlalo omncane",start:"Qala",clickMomo:"Chofoza kangako okwakho ngezikhathi ezingu-5!",faq:"Imibuzo",visitors:"Abavakasheli ku-inthanethi",contact:"Xhumana nathi"}
+};
+function setLang(l){
+  document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=i18n[l][el.dataset.i18n]);
+}
+const langSelect = document.getElementById('langSelect');
+langSelect.addEventListener('change',()=>{setLang(langSelect.value);localStorage.lang=langSelect.value});
+const userLang = localStorage.lang || navigator.language.slice(0,2);
+if(i18n[userLang]){langSelect.value=userLang;setLang(userLang);}
+
+/* ---------- Theme ---------- */
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.onclick = () => {
+  document.body.classList.toggle('light');
+  localStorage.theme = document.body.classList.contains('light')?'light':'dark';
+};
+if(localStorage.theme==='light')document.body.classList.add('light');
+
+/* ---------- Mini-game ---------- */
+let clicks = 0, timer;
+document.getElementById('startGame').onclick = () => {
+  clicks = 0;
+  document.getElementById('gameResult').style.display='none';
+  document.getElementById('startGame').textContent = 'Click!';
+  timer = setInterval(()=>{
+    clearInterval(timer);
+    document.getElementById('startGame').textContent = i18n[langSelect.value]?.start || 'Start Game';
+    const msg = document.getElementById('gameResult');
+    msg.textContent = (i18n[langSelect.value]?.score||'Score')+': '+clicks;
+    msg.style.display='block';
+  },5000);
+  document.getElementById('startGame').onclick = ()=>{clicks++;};
+};
+
+/* ---------- FAQ accordion ---------- */
+document.querySelectorAll('.faq-item').forEach(item=>{
+  item.onclick = ()=>item.classList.toggle('open');
+});
+
+/* ---------- Visitor counter (uses jsonbox) ---------- */
+fetch('https://api.jsonbox.io/momo_visitors')
+  .then(r=>r.json())
+  .then(d=>{document.getElementById('visitorCount').textContent=d.length;})
+  .catch(()=>{document.getElementById('visitorCount').textContent='∞';});
+
+/* ---------- Early-access form ---------- */
+document.getElementById('earlyForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  fetch('https://api.jsonbox.io/momo_signups',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({email:e.target.email.value,date:Date.now()})
+  });
+  document.getElementById('formMsg').style.display='block';
+  e.target.reset();
+});
+
+/* ---------- Back-to-top ---------- */
+const backTop = document.getElementById('backTop');
+window.onscroll = () => backTop.style.display = window.scrollY>400?'block':'none';
+backTop.onclick = ()=>window.scrollTo({top:0,behavior:'smooth'});
+
+/* ---------- Floating particles background ---------- */
+const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+let particles=[];
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+window.addEventListener('resize',resize);resize();
+for(let i=0;i<50;i++)particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,d:Math.random()*2-1});
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle=window.getComputedStyle(document.body).getPropertyValue('--accent');
+  particles.forEach(p=>{
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+    p.y+=p.d;
+    if(p.y>canvas.height)p.y=0;
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
